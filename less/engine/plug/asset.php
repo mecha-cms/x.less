@@ -1,6 +1,6 @@
 <?php
 
-Asset\Union::plug('less', function($value, $key, $attr) {
+Asset::_('.less', function($value, $key, $attr) {
     extract($value);
     $state = Extend::state('asset.less');
     $state_asset = Extend::state('asset');
