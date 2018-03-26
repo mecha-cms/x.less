@@ -100,11 +100,11 @@ An exception will be thrown if the compiler encounters invalid less
 
 ```php
 try{
-	$parser = new Less_Parser();
-	$parser->parseFile( '/var/www/mysite/bootstrap.less', 'http://example.com/mysite/' );
-	$css = $parser->getCss();
+    $parser = new Less_Parser();
+    $parser->parseFile( '/var/www/mysite/bootstrap.less', 'http://example.com/mysite/' );
+    $css = $parser->getCss();
 }catch(Exception $e){
-	$error_message = $e->getMessage();
+    $error_message = $e->getMessage();
 }
 ```
 
@@ -237,10 +237,10 @@ $css = $parser->getCss();
 
 ```php
 $options = array(
-	'sourceMap'			=> true,
-	'sourceMapWriteTo'	=> '/var/www/mysite/writable_folder/filename.map',
-	'sourceMapURL'		=> '/mysite/writable_folder/filename.map',
-	);
+    'sourceMap'            => true,
+    'sourceMapWriteTo'    => '/var/www/mysite/writable_folder/filename.map',
+    'sourceMapURL'        => '/mysite/writable_folder/filename.map',
+    );
 $parser = new Less_Parser($options);
 $parser->parseFile( '/var/www/mysite/bootstrap.less', '/mysite/' );
 $css = $parser->getCss();
@@ -292,7 +292,7 @@ How to use / install:
 
 Use the built-in compiler to:
 - set any [Bootstrap](http://getbootstrap.com/customize/) variable or use Bootstrap's mixins:
-	-`@navbar-default-color: blue;`
+    -`@navbar-default-color: blue;`
         - create a custom button: `.btn-custom {
   .button-variant(white; red; blue);
 }`

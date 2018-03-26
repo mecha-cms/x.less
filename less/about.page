@@ -4,7 +4,7 @@ description: Convert Less syntax into CSS syntax.
 author: Taufik Nurrohman
 type: Markdown
 link: http://lessphp.gpeasy.com
-version: 2.1.0
+version: 2.1.1
 
 dependency:
   extension:
