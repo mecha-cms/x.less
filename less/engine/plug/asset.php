@@ -2,7 +2,7 @@
 
 Asset::_('.less', function($value, $key, $attr) {
     extract($value);
-    $state = Extend::state('asset.less');
+    $state = Extend::state('less');
     $state_asset = Extend::state('asset');
     if ($path !== false) {
         $minify = !empty($state['less']['compress']);
@@ -23,10 +23,10 @@ Asset::_('.less', function($value, $key, $attr) {
             if ($minify && Extend::exist('minify')) {
                 $css = Minify::css($css); // Optimize where possible!
             }
-            File::write($css)->saveTo($path_css);
+            File::set($css)->saveTo($path_css);
         }
         return HTML::unite('link', false, Anemon::extend($attr, [
-            'href' => __replace__($state_asset['url'], [To::url($path_css), $t_css ?: $_SERVER['REQUEST_TIME']]),
+            'href' => __replace__($state_asset['url'], [To::URL($path_css), $t_css ?: $_SERVER['REQUEST_TIME']]),
             'rel' => 'stylesheet'
         ]));
     }
