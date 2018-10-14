@@ -25,7 +25,7 @@ Asset::_('.less', function($value, $key, $attr) {
             }
             File::set($css)->saveTo($path_css);
         }
-        return HTML::unite('link', false, Anemon::extend($attr, [
+        return HTML::unite('link', false, extend($attr, [
             'href' => candy($state_asset['url'], [To::URL($path_css), $t_css ?: $_SERVER['REQUEST_TIME']]),
             'rel' => 'stylesheet'
         ]));
