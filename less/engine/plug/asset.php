@@ -23,7 +23,7 @@ Asset::_('.less', function($value, $key, $attr) {
             if ($minify && Extend::exist('minify')) {
                 $css = Minify::css($css); // Optimize where possible!
             }
-            File::set($css)->saveTo($path_css);
+            File::put($css)->saveTo($path_css);
         }
         return HTML::unite('link', false, extend($attr, [
             'href' => candy($state_asset['url'], [To::URL($path_css), $t_css ?: $_SERVER['REQUEST_TIME']]),
