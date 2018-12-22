@@ -1,32 +1,37 @@
 <?php
 
-Asset::_('.less', function($value, $key, $attr) {
+Asset::_('.less', function($value, $key, $attr) use($url) {
     extract($value);
-    $state = Extend::state('less');
     $state_asset = Extend::state('asset');
     if ($path !== false) {
-        $minify = !empty($state['less']['compress']);
         $path_css = str_replace([
             DS . 'less' . DS,
             DS . basename($path) . X,
             X
         ], [
             DS . 'css' . DS,
-            DS . Path::N($path) . ($minify ? '.min' : "") . '.css',
+            DS . Path::N($path) . '.min.css',
             ""
         ], $path . X);
-        $t_less = filemtime($path);
-        $t_css = file_exists($path_css) ? filemtime($path_css) : 0;
-        if ($t_less > $t_css) {
-            $less = new Less_Parser($state['less']);
-            $css = $less->parseFile($path)->getCss();
-            if ($minify && Extend::exist('minify')) {
-                $css = Minify::css($css); // Optimize where possible!
+        $directory = CACHE . DS . '@less';
+        $cache = $directory . DS . Less_Cache::Get([$path => $url . '/'], [
+            'prefix' => 'less-',
+            'prefix_vars' => 'less-var-',
+            'cache_dir' => $directory,
+            'cache_method' => 'php',
+            'compress' => true
+        ]);
+        $t = filemtime($cache);
+        if (!file_exists($path_css) || $t > filemtime($path_css)) {
+            $css = file_get_contents($cache);
+            // Optimize where possible
+            if (Extend::exist('minify')) {
+                $css = Minify::css($css);
             }
             File::put($css)->saveTo($path_css);
         }
         return HTML::unite('link', false, extend($attr, [
-            'href' => candy($state_asset['url'], [To::URL($path_css), $t_css ?: $_SERVER['REQUEST_TIME']]),
+            'href' => candy($state_asset['url'], [To::URL($path_css), $t ?: $_SERVER['REQUEST_TIME']]),
             'rel' => 'stylesheet'
         ]));
     }

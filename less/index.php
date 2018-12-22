@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . DS . 'lot' . DS . 'worker' . DS . 'less.php' . DS . 'Less.php';
+require __DIR__ . DS . 'lot' . DS . 'worker' . DS . '@less' . DS . 'Less.php';
 require __DIR__ . DS . 'engine' . DS . 'plug' . DS . 'asset.php';
 
 Hook::set('asset:head', function($content) {
