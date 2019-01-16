@@ -1,7 +1,7 @@
 <?php
 
 Asset::_('.less', function($value, $key, $attr) use($url) {
-    extract($value);
+    extract($value, EXTR_SKIP);
     $state_asset = Extend::state('asset');
     if ($path !== false) {
         $path_css = str_replace([
