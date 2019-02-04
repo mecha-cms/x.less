@@ -8,4 +8,4 @@ Hook::set('asset:head', function($content) {
 });
 
 // Add `less` to the allowed file extension(s)
-File::$config['extension'][] = 'less';
+File::$config['x'][] = 'less';
