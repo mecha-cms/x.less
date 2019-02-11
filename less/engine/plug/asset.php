@@ -1,37 +1,71 @@
-<?php
+<?php namespace fn\less;
 
-Asset::_('.less', function($value, $key, $attr) use($url) {
-    extract($value, EXTR_SKIP);
-    $state_asset = Extend::state('asset');
+function files(string $path): array {
+    if (!\is_file($path)) {
+        return [false, []];
+    }
+    $out = [$path];
+    $content = \file_get_contents($path);
+    $r = '#@import\s+(?:(["\'])([^"\'\s]+)\1|url\((["\']?)([^\n]+)\1\))#';
+    if (\strpos($content, '@import') !== false && \preg_match_all($r, $content, $m)) {
+        foreach ($m[2] as $v) {
+            // Ignore external file(s) and native CSS file(s)
+            if (
+                \strpos($v, '://') !== false ||
+                \strpos($v, '//') === 0 ||
+                \substr($v, -4) === '.css'
+            ) {
+                continue;
+            }
+            $v = \dirname($path) . DS . \strtr($v, '/', DS);
+            if (\is_file($v) || \is_file($v .= '.less')) {
+                $out = \concat($out, files($v)[1]); // Recurse…
+            }
+        }
+    }
+    return [$content, $out];
+}
+
+\Asset::_('.less', function($value, $key, $data) {
+    extract($value, \EXTR_SKIP);
+    $state = \Extend::state('asset');
     if ($path !== false) {
-        $path_css = str_replace([
+        $less = new lessc;
+        $less->setFormatter('compressed');
+        $less->setImportDir([dirname($path) . DS]);
+        if ($function = \Extend::state('less:function')) {
+            foreach ((array) $function as $k => $v) {
+                $less->registerFunction($k, $v);
+            }
+        }
+        if ($variable = \Extend::state('less:variable')) {
+            $less->setVariables((array) $variable);
+        }
+        $result = str_replace([
             DS . 'less' . DS,
-            DS . basename($path) . X,
+            DS . \basename($path) . X,
             X
         ], [
             DS . 'css' . DS,
-            DS . Path::N($path) . '.min.css',
+            DS . \Path::N($path) . '.min.css',
             ""
         ], $path . X);
-        $directory = CACHE . DS . '@less';
-        $cache = $directory . DS . Less_Cache::Get([$path => $url . '/'], [
-            'prefix' => 'less-',
-            'prefix_vars' => 'less-var-',
-            'cache_dir' => $directory,
-            'cache_method' => 'php',
-            'compress' => true
-        ]);
-        $t = filemtime($cache);
-        if (!file_exists($path_css) || $t > filemtime($path_css)) {
-            $css = file_get_contents($cache);
-            // Optimize where possible
-            if (Extend::exist('minify')) {
-                $css = Minify::css($css);
-            }
-            File::put($css)->saveTo($path_css);
+        $t = 0;
+        $files = files($path);
+        foreach ($files[1] as $v) {
+            $v = \filemtime($v);
+            $t < $v && ($t = $v);
         }
-        return HTML::unite('link', false, extend($attr, [
-            'href' => candy($state_asset['url'], [To::URL($path_css), $t ?: $_SERVER['REQUEST_TIME']]),
+        if (!\file_exists($result) || $t > \filemtime($result)) {
+            $css = $less->compile($files[0]);
+            // Optimize where possible
+            if (\Extend::exist('minify')) {
+                $css = \Minify::css($css);
+            }
+            \File::put($css)->saveTo($result);
+        }
+        return \HTML::unite('link', false, \extend($data, [
+            'href' => \candy($state['url'], [\To::URL($result), $t ?: $_SERVER['REQUEST_TIME']]),
             'rel' => 'stylesheet'
         ]));
     }
