@@ -2,7 +2,8 @@
 
 require __DIR__ . DS . 'lot' . DS . 'worker' . DS . '@less' . DS . 'less.inc.php';
 
-r(__DIR__ . DS . 'engine' . DS . 'plug' . DS . '%[asset,from]%');
+require __DIR__ . DS . 'engine' . DS . 'plug' . DS . 'asset.php';
+require __DIR__ . DS . 'engine' . DS . 'plug' . DS . 'from.php';
 
 Hook::set('asset:head', function($content) {
     return $content . Hook::fire('asset.less', [Asset::less()], null, Asset::class); // Append
