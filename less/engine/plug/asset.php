@@ -29,7 +29,7 @@ function files(string $path): array {
 \Asset::_('.less', function($value, $key, $data) {
     extract($value, \EXTR_SKIP);
     $state = \Extend::state('asset');
-    if ($path !== false) {
+    if (isset($path)) {
         $less = new \lessc;
         $less->setFormatter('compressed');
         $less->setImportDir([dirname($path)]);
