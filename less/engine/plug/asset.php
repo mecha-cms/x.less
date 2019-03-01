@@ -26,7 +26,7 @@ function files(string $path): array {
     return [$content, $out];
 }
 
-\Asset::_('.less', function($value, $key, $data) {
+\Asset::_('.less', function($value, $key) {
     extract($value, \EXTR_SKIP);
     $state = \Extend::state('asset');
     if (isset($path)) {
@@ -56,18 +56,22 @@ function files(string $path): array {
             $v = \filemtime($v);
             $t < $v && ($t = $v);
         }
-        if (!\file_exists($result) || $t > \filemtime($result)) {
+        if (!\is_file($result) || $t > \filemtime($result)) {
             $css = $less->compile($files[0]);
             // Optimize where possible
             if (\Extend::exist('minify')) {
-                $css = \Minify::css($css);
+                $css = \Minify::CSS($css);
             }
             \File::put($css)->saveTo($result);
         }
-        return \HTML::unite('link', false, \extend($data, [
+        $link = new \HTML;
+        $link[0] = 'link';
+        $link[1] = false;
+        $link[2] = \extend($data, [
             'href' => \candy($state['url'], [\To::URL($result), $t ?: $_SERVER['REQUEST_TIME']]),
             'rel' => 'stylesheet'
-        ]));
+        ]);
+        return $link;
     }
     return '<!-- ' . $key . ' -->';
 });

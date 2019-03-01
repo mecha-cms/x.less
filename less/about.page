@@ -4,7 +4,7 @@ description: Convert LESS syntax into CSS syntax.
 author: Taufik Nurrohman
 type: Markdown
 link: 'http://leafo.net/lessphp'
-version: 2.3.0
+version: 2.4.0
 
 dependency:
   extension:
@@ -20,16 +20,8 @@ This extension compiles LESS code into CSS code by looking for files with extens
 
 ### Usage
 
-Dynamic loading:
-
 ~~~ .php
 Asset::set('.\path\to\file.less');
-~~~
-
-Direct loading:
-
-~~~ .php
-echo Asset::less('.\path\to\file.less');
 ~~~
 
 <!-- block:donate -->

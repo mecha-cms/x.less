@@ -13,7 +13,7 @@ From::_('LESS', $fn = function(string $in, $minify = false) {
         $less->setVariables((array) $variable);
     }
     $out = $less->compile($in);
-    return $minify && Extend::exist('minify') ? Minify::css($out) : $out;
+    return $minify && Extend::exist('minify') ? Minify::CSS($out) : $out;
 });
 
 // Alias(es)
