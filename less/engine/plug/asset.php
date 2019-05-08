@@ -1,4 +1,4 @@
-<?php namespace fn\less;
+<?php namespace _\less;
 
 function files(string $path): array {
     if (!\is_file($path)) {
