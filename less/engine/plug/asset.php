@@ -62,7 +62,7 @@ function files(string $path): array {
             if (\Extend::exist('minify')) {
                 $css = \Minify::CSS($css);
             }
-            \File::put($css)->saveTo($result);
+            \File::set($css)->saveTo($result);
         }
         $link = new \HTML;
         $link[0] = 'link';
