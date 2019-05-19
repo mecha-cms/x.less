@@ -28,17 +28,17 @@ function files(string $path): array {
 
 \Asset::_('.less', function($value, $key) {
     extract($value, \EXTR_SKIP);
-    $state = \Extend::state('asset');
+    $state = \extend('asset');
     if (isset($path)) {
         $less = new \lessc;
         $less->setFormatter('compressed');
         $less->setImportDir([dirname($path)]);
-        if ($function = \Extend::state('less:function')) {
+        if ($function = \extend('less:function')) {
             foreach ((array) $function as $k => $v) {
                 $less->registerFunction($k, $v);
             }
         }
-        if ($variable = \Extend::state('less:variable')) {
+        if ($variable = \extend('less:variable')) {
             $less->setVariables((array) $variable);
         }
         $result = str_replace([
@@ -59,19 +59,15 @@ function files(string $path): array {
         if (!\is_file($result) || $t > \filemtime($result)) {
             $css = $less->compile($files[0]);
             // Optimize where possible
-            if (\Extend::exist('minify')) {
+            if (\extend('minify') !== null) {
                 $css = \Minify::CSS($css);
             }
             \File::set($css)->saveTo($result);
         }
-        $link = new \HTML;
-        $link[0] = 'link';
-        $link[1] = false;
-        $link[2] = \extend($data, [
-            'href' => \candy($state['url'], [\To::URL($result), $t ?: $_SERVER['REQUEST_TIME']]),
+        return new \HTML(['link', false, \alter($data, [
+            'href' => \To::URL($result) . '?v=' . ($t ?: $_SERVER['REQUEST_TIME']),
             'rel' => 'stylesheet'
-        ]);
-        return $link;
+        ])]);
     }
     return '<!-- ' . $key . ' -->';
 });
