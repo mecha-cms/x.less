@@ -43,13 +43,13 @@ function files(string $path): array {
         }
         $result = str_replace([
             DS . 'less' . DS,
-            DS . \basename($path) . X,
-            X
+            DS . \basename($path) . P,
+            P
         ], [
             DS . 'css' . DS,
             DS . \Path::N($path) . '.min.css',
             ""
-        ], $path . X);
+        ], $path . P);
         $t = 0;
         $files = files($path);
         foreach ($files[1] as $v) {
