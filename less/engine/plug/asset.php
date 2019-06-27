@@ -28,17 +28,17 @@ function files(string $path): array {
 
 \Asset::_('.less', function($value, $key) {
     extract($value, \EXTR_SKIP);
-    $state = \extend('asset');
+    $state = \extension('asset');
     if (isset($path)) {
         $less = new \lessc;
         $less->setFormatter('compressed');
         $less->setImportDir([dirname($path)]);
-        if ($function = \extend('less:function')) {
+        if ($function = \extension('less:function')) {
             foreach ((array) $function as $k => $v) {
                 $less->registerFunction($k, $v);
             }
         }
-        if ($variable = \extend('less:variable')) {
+        if ($variable = \extension('less:variable')) {
             $less->setVariables((array) $variable);
         }
         $result = str_replace([
@@ -59,7 +59,7 @@ function files(string $path): array {
         if (!\is_file($result) || $t > \filemtime($result)) {
             $css = $less->compile($files[0]);
             // Optimize where possible
-            if (\extend('minify') !== null) {
+            if (\extension('minify') !== null) {
                 $css = \Minify::CSS($css);
             }
             \File::set($css)->saveTo($result);
