@@ -64,7 +64,7 @@ function files(string $path): array {
             }
             \File::set($css)->saveTo($result);
         }
-        return new \HTML(['link', false, \alter($data, [
+        return new \HTML(['link', false, \extend($data, [
             'href' => \To::URL($result) . '?v=' . ($t ?: $_SERVER['REQUEST_TIME']),
             'rel' => 'stylesheet'
         ])]);
