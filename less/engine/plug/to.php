@@ -1,9 +1,7 @@
 <?php
 
-From::_('LESS', $fn = function(string $in, $minify = false) {
-    $less = new lessc;
-    $less->setImportDir([]); // Disable `@import` rule
-    $less->setFormatter($minify ? 'compressed' : 'classic');
+To::_('LESS', $fn = function($in/* , $minify = false */) {
+    $less = new lessify;
     $d = __DIR__ . DS . '..' . DS . '..' . DS . 'state';
     if ($function = (function($f) {
         extract($GLOBALS, EXTR_SKIP);
@@ -19,8 +17,8 @@ From::_('LESS', $fn = function(string $in, $minify = false) {
     })($d . DS . 'variable.php')) {
         $less->setVariables((array) $variable);
     }
-    return $less->compile($in);
+    return $less->parse($in);
 });
 
 // Alias(es)
-From::_('less', $fn);
+To::_('less', $fn);
