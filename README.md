@@ -1,5 +1,5 @@
-LESS Extension for Mecha
-========================
+LESS Extension for [Mecha](https://github.com/mecha-cms/mecha)
+==============================================================
 
 Release Notes
 -------------
