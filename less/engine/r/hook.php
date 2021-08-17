@@ -1,7 +1,7 @@
 <?php
 
 // Automatically generate `css.data` file from `less.data` file
-namespace _\lot\x\art {
+namespace x\art {
     function less($content) {
         if (!$path = $this->path) {
             return $content;
@@ -29,7 +29,7 @@ namespace _\lot\x\art {
     \Hook::set('page.css', __NAMESPACE__ . "\\less", 0);
 }
 
-namespace _\lot\x {
+namespace x {
     function less() {
         // No output needed, just trigger the asset(s)
         \Asset::join('.less');

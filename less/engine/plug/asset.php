@@ -1,4 +1,4 @@
-<?php namespace _\lot\x\less;
+<?php namespace x\less;
 
 function files(string $path): array {
     if (!\is_file($path)) {
@@ -61,7 +61,7 @@ function files(string $path): array {
         $less = new \lessc;
         $less->setImportDir([\dirname($path)]);
         $d = __DIR__ . \DS . '..' . \DS . '..' . \DS . 'state';
-        if ($function = (function($f) {
+        if ($function = (static function($f) {
             extract($GLOBALS, \EXTR_SKIP);
             return require $f;
         })($d . \DS . 'function.php')) {
@@ -69,7 +69,7 @@ function files(string $path): array {
                 $less->registerFunction($k, $v);
             }
         }
-        if ($variable = (function($f) {
+        if ($variable = (static function($f) {
             extract($GLOBALS, \EXTR_SKIP);
             return require $f;
         })($d . \DS . 'variable.php')) {
@@ -80,12 +80,12 @@ function files(string $path): array {
         $less->setPreserveComments(true);
         $css = $less->compile($content);
         \file_put_contents($f, $css);
-        @\chmod($f, 0777);
+        \chmod($f, 0777);
         $less->setFormatter('compressed');
         $less->setPreserveComments(false);
         $css = $less->compile($content);
         \file_put_contents($ff, $css);
-        @\chmod($f, 0777);
+        \chmod($f, 0777);
     }
     return static::set($ff, $stack, $data);
 });
