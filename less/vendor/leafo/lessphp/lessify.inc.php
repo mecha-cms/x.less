@@ -363,7 +363,7 @@ class lessify extends lessc {
 		print_r($this->env);
 	}
 
-	public function parse($str = null, $initialVariables = null) {
+	public function parse($str = null) {
 		$this->prepareParser($str ? $str : $this->buffer);
 		while (false !== $this->parseChunk());
 
