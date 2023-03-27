@@ -5,10 +5,6 @@ author: Taufik Nurrohman
 type: Markdown
 link: 'http://leafo.net/lessphp'
 version: 2.7.0
-
-use:
-  '.\lot\x\art': 0
-  '.\lot\x\asset': 1
 ...
 
 ![LESS Logo](https://user-images.githubusercontent.com/1669261/73813016-5a9b6a00-4811-11ea-8212-f9e4b7a29937.png)
