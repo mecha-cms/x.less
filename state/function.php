@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'test' => function(...$lot) {
+    'test' => function (...$lot) {
         var_dump(...$lot);
     }
 ];

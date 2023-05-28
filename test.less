@@ -1,0 +1,52 @@
+@color: #fff;
+@fill--hover: #009;
+@fill: #000;
+
+nav {
+  height: 3em;
+  line-height: 3em;
+  a {
+    color: inherit;
+    display: block;
+    padding: 0 1em;
+    text-decoration: none;
+    &:focus,
+    &:hover {
+      background: @fill--hover;
+    }
+  }
+  li, ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+  li {
+    &:hover {
+      > a {
+        background: @fill--hover;
+      }
+      > ul {
+        display: block;
+      }
+    }
+  }
+  ul {
+    background: @fill;
+    color: @color;
+    display: flex;
+    flex-wrap: wrap;
+    ul {
+      display: none;
+      left: 0;
+      position: absolute;
+      top: 100%;
+      width: 12em;
+      z-index: 9999;
+      ul {
+        left: 100%;
+        top: 0;
+      }
+    }
+  }
+}

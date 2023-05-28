@@ -1,24 +1,25 @@
 <?php
 
-To::_('LESS', $fn = function($in/* , $minify = false */) {
+To::_('LESS', $less = static function (?string $content, $tidy = false): ?string {
     $less = new lessify;
-    $d = __DIR__ . DS . '..' . DS . '..' . DS . 'state';
-    if ($function = (static function($f) {
+    $folder = __DIR__ . D . '..' . D . '..' . D . 'state';
+    if ($function = (static function ($f) {
         extract($GLOBALS, EXTR_SKIP);
         return require $f;
-    })($d . DS . 'function.php')) {
+    })($folder . D . 'function.php')) {
         foreach ((array) $function as $k => $v) {
             $less->registerFunction($k, $v);
         }
     }
-    if ($variable = (static function($f) {
+    if ($variable = (static function ($f) {
         extract($GLOBALS, EXTR_SKIP);
         return require $f;
-    })($d . DS . 'variable.php')) {
+    })($folder . D . 'variable.php')) {
         $less->setVariables((array) $variable);
     }
-    return $less->parse($in);
+    $content = $less->parse($content);
+    return "" !== $content ? $content : null;
 });
 
-// Alias(es)
-To::_('less', $fn);
+// Alias
+To::_('less', $less);

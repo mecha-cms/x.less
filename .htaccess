@@ -1,0 +1,7 @@
+<Files 'test.css'>
+  Allow from all
+</Files>
+
+<Files 'test.min.css'>
+  Allow from all
+</Files>
