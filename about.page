@@ -7,6 +7,10 @@ author: Taufik Nurrohman
 type: Markdown
 link: 'http://leafo.net/lessphp'
 version: 2.8.0
+
+alert:
+  stale:
+  - 'Dependencies on this extension are deprecated and may not work with recent PHP versions.'
 ...
 
 Less (which stands for Leaner Style Sheets) is a backwards-compatible language extension for CSS. Because Less looks
