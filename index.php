@@ -1,12 +1,12 @@
 <?php
 
-namespace x {
-    function less() {
+namespace x\less {
+    function asset() {
         // Output is not required in this case, just trigger the asset(s)
         \class_exists("\\Asset") && \Asset::join('*.less');
     }
-    // Make sure to run this hook before `asset:head`
-    \Hook::set('content', __NAMESPACE__ . "\\less", -1);
+    // Make sure to run this hook before `head`
+    \Hook::set('content', __NAMESPACE__ . "\\asset", -1);
 }
 
 namespace {
